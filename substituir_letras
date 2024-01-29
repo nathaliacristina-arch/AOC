@@ -1,0 +1,57 @@
+.data
+msgem1: .asciiz "Defina a frase de entrada (ate 100 caracteres minusculos): \n"
+entrada: .space 100    
+ 
+.text
+main:
+    li $v0, 4            
+    la $a0, msgem1       
+    syscall              
+ 
+    li $v0, 8            
+    la $a0, entrada      
+    li $a1, 100          
+    syscall              
+ 
+ 
+    li $t0, 0
+ 
+replace_loop:
+    lb $t1, entrada($t0)  
+    beq $t1, 97, replace_a
+    beq $t1, 101, replace_e
+    beq $t1, 105, replace_i
+    beq $t1, 111, replace_o
+ 
+    j continue_loop
+ 
+replace_a:
+    li $t1, 52   
+    j store_result
+ 
+replace_e:
+    li $t1, 51   
+    j store_result
+ 
+replace_i:
+    li $t1, 49   
+    j store_result
+ 
+replace_o:
+    li $t1, 48   
+ 
+store_result:
+    sb $t1, entrada($t0)  
+ 
+continue_loop:
+    addi $t0, $t0, 1      
+    bnez $t1, replace_loop 
+ 
+ 
+    li $v0, 4            
+    la $a0, entrada      
+    syscall              
+    
+ 
+    li $v0, 10           
+    syscall            
