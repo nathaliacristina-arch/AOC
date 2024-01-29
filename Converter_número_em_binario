@@ -1,0 +1,72 @@
+#Converter um número inteiro positivo em binário com a mensagem:
+#msgem1: .asciiz "Defina o numero a ser convertido (ate 1024): \n"
+#Testes:
+#Entradas Saídas
+#5 0101
+#25 011001
+#50 0110010
+#Dica: Use a memória.
+
+
+.data
+msgem1: .asciiz "Defina o numero a ser convertido (ate 1024): \n"
+binary: .space 11  # Espaço para armazenar 11 caracteres (10 bits + '\0')
+imprimezero: .asciiz "0"
+    .text
+    .globl main
+main:
+    # Imprimir mensagem para o usuário
+    li $v0, 4
+    la $a0, msgem1
+    syscall
+ 
+    # Ler número do usuário
+    li $v0, 5
+    syscall
+    move $t1, $v0  # $t1 armazena o número
+    
+     # Verificar se o número é maior que 1024
+    li $t2, 1024
+    bgt $t1, $t2, error
+ 
+    # Preparar para conversão
+    la $t3, binary  # Endereço base para armazenar o binário
+    li $t4, 10      # Índice para o array binário
+ 
+convert_loop:
+    # Verificar se o número é 0
+    beq $t1, $zero, display_binary
+ 
+    # Dividir o número por 2 e armazenar o resto
+    li $t5, 2
+    div $t1, $t5
+    mfhi $t6          # Resto (0 ou 1)
+    mflo $t1          # Quociente
+    
+     # Converter o resto para ASCII e armazenar na memória
+    addi $t6, $t6, '0'
+    sb $t6, -1($t3)
+ 
+    # Atualizar índices
+    addi $t3, $t3, -1
+    b convert_loop
+ 
+display_binary:
+    # Imprimir o binário    
+    li $v0, 4
+    la $a0, imprimezero
+    syscall 
+    
+    move $a0, $t3
+    li $v0, 4
+    syscall
+ 
+    # Encerrar o programa
+    li $v0, 10
+    syscall
+    
+error:
+    # Mensagem de erro para número inválido
+    # (Código para exibir mensagem de erro)
+    li $v0, 10
+    syscall
