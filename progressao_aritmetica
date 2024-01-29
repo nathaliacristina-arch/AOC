@@ -1,0 +1,64 @@
+Defina a sequência numérica com 10 elementos de uma progressão aritmética,
+definindo o primeiro elemento e a razão da progressão pelas mensagens:
+msgem1: .asciiz "Defina o primeiro elemento de uma progressao aritmetica:
+\n"
+msgem2: .asciiz "Defina a razao da progressao a ser calculada: \n"
+Testes:
+Entradas Saídas
+5
+3
+5 8 11 14 17 20 23 26 29 32
+6
+9
+6 15 24 33 42 51 60 69 78 87
+92
+5
+92 97 102 107 112 117 122 127 132 137
+
+
+.data
+msg1: .asciiz "Defina o primeiro elemento de uma progressao aritmetica: \n"
+msg2: .asciiz "Defina a razao da progressao a ser calculada: \n"
+msg3: .asciiz " "
+ 
+.text
+main:
+ 
+    li $v0, 4
+    la $a0, msg1
+    syscall
+ 
+    li $v0, 5
+    syscall
+    move $s0, $v0 
+ 
+    li $v0, 4
+    la $a0, msg2
+    syscall
+ 
+    li $v0, 5
+    syscall
+    move $s1, $v0
+ 
+    li $t0, 10 
+    li $t1, 0  
+ 
+loop:
+ 
+    mul $t2, $s1, $t1
+    add $t2, $s0, $t2
+ 
+    li $v0, 1
+    move $a0, $t2
+    syscall
+ 
+    li $v0, 4
+    la $a0, msg3
+    syscall
+ 
+    addi $t1, $t1, 1
+ 
+    blt $t1, $t0, loop
+ 
+    li $v0, 10
+    syscall
