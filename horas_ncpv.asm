@@ -1,33 +1,34 @@
+#Programa que imprime que horas s√£o
 .data 
 	pergunta: .asciiz "Entre com as horas: "
-	inv·lido: .asciiz "Valor inv·lido para horas. Esperando n˙mero entre 0 e 23. "
+	inv√°lido: .asciiz "Valor inv√°lido para horas. Esperando n√∫mero entre 0 e 23. "
 	minutos: .asciiz "Entre com os minutos: "
-	errado: .asciiz "Valor invÈlido para minutos. Esperando n˙mero entre 0 e 59."
+	errado: .asciiz "Valor inv√©lido para minutos. Esperando n√∫mero entre 0 e 59."
 	segundos: .asciiz "Entre com os segundos: "
-	erro: .asciiz "Valor inv·lido para segundos. Esperando n˙mero entre 0 e 59."
-	hor·rio: .asciiz "Hor·rio digitado: "
-	espaÁo: .byte ':'
+	erro: .asciiz "Valor inv√°lido para segundos. Esperando n√∫mero entre 0 e 59."
+	hor√°rio: .asciiz "Hor√°rio digitado: "
+	espa√ßo: .byte ':'
 	
 .text
 	
-	laÁohoras:
+	la√ßohoras:
 	#imprimindo a pergunta sobre horas
 	li $t1,23
 	li, $v0, 4
 	la, $a0, pergunta 
 	syscall
 	
-	#ler o n˙mero
+	#ler o n√∫mero
 	li, $v0, 5
 	syscall 
 	
 	move $t0, $v0
 	
-	blt $t0, $zero,  horasinv·lido #t1=23 ou menor, executa o laÁo
-	bgt $t0, $t1, horasinv·lido
+	blt $t0, $zero,  horasinv√°lido #t1=23 ou menor, executa o la√ßo
+	bgt $t0, $t1, horasinv√°lido
 	
 	
-	minutoslaÁo:
+	minutosla√ßo:
 	
 	#imprimindo a pergunta sobre minutos
 	li $t1, 60
@@ -42,12 +43,12 @@
 	move $t2, $v0
 	
 	
-	blt $t2, $zero, minutosinv·lido #t3=59 ou menor, executa a hora
-	bgt $t2, $t1, minutosinv·lido
+	blt $t2, $zero, minutosinv√°lido #t3=59 ou menor, executa a hora
+	bgt $t2, $t1, minutosinv√°lido
 	
 	
 	
-	laÁoseg:	
+	la√ßoseg:	
 	
 	#imprimindo a pergunta sobre segundos
 	li $t1,60
@@ -55,19 +56,19 @@
 	la, $a0, segundos
 	syscall
 	
-	#ler o n˙mero
+	#ler o n√∫mero
 	li, $v0, 5
 	syscall 
 	
 	move $t3, $v0
 	
-	blt $t3, $zero, segundosinv·lido #t1=59 ou menor, executa a hora
-	bgt $t3, $t1, segundosinv·lido
+	blt $t3, $zero, segundosinv√°lido #t1=59 ou menor, executa a hora
+	bgt $t3, $t1, segundosinv√°lido
 	
 
 	
 	li, $v0, 4
-	la, $a0, hor·rio 
+	la, $a0, hor√°rio 
 	syscall
 	
 	
@@ -77,7 +78,7 @@
 	syscall
 	
 	li $v0,4
-	la $a0, espaÁo
+	la $a0, espa√ßo
 	syscall
 	
 	li $v0, 1
@@ -85,7 +86,7 @@
 	syscall
 	
 	li $v0,4
-	la $a0, espaÁo
+	la $a0, espa√ßo
 	syscall
 	
 	li $v0, 1
@@ -99,26 +100,26 @@
 	
 
 									
-	horasinv·lido: 
+	horasinv√°lido: 
 	li, $v0, 4
-	la, $a0, inv·lido  
+	la, $a0, inv√°lido  
 	syscall
-	j laÁohoras
+	j la√ßohoras
 	
 	
-	minutosinv·lido:
+	minutosinv√°lido:
 	li, $v0, 4
 	la, $a0, errado  
 	syscall
-	j minutoslaÁo
+	j minutosla√ßo
 	
 	
 	
-	segundosinv·lido: 
+	segundosinv√°lido: 
 	li, $v0, 4
 	la, $a0, erro 
 	syscall
-	j laÁoseg
+	j la√ßoseg
 	
 	 
 	 
